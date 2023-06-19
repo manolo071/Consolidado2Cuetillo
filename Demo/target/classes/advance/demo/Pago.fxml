@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="303.0" prefWidth="449.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advance.demo.PagoController">
+   <children>
+      <Label layoutX="177.0" layoutY="24.0" text="Pagar Semestre">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="89.0" layoutY="76.0" text="Alumno" />
+      <Label layoutX="89.0" layoutY="153.0" prefHeight="17.0" prefWidth="62.0" text="Monto" />
+      <Label layoutX="86.0" layoutY="201.0" text="Metodo" />
+      <TextField fx:id="txtEdad" layoutX="199.0" layoutY="72.0" />
+      <TextField fx:id="txtDNI" alignment="CENTER" layoutX="199.0" layoutY="153.0" text="s/.665" />
+      <Button fx:id="btnAgregar" layoutX="187.0" layoutY="254.0" mnemonicParsing="false" text="Pagar" />
+      <Button layoutX="274.0" layoutY="254.0" mnemonicParsing="false" text="Cancelar" />
+      <Label layoutX="89.0" layoutY="116.0" prefHeight="17.0" prefWidth="80.0" text="Tipo de Pago" />
+      <CheckBox layoutX="210.0" layoutY="201.0" mnemonicParsing="false" text="Tarjeta" />
+      <CheckBox layoutX="287.0" layoutY="201.0" mnemonicParsing="false" text="Yape" />
+      <SplitMenuButton layoutX="199.0" layoutY="112.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="25.0" prefWidth="149.0" text="Mensual">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Mensual" />
+          <MenuItem mnemonicParsing="false" text="Año" />
+        </items>
+      </SplitMenuButton>
+   </children>
+</AnchorPane>
