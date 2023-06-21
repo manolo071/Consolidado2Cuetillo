@@ -1,4 +1,6 @@
 package advance.demo;
+import advance.demo.clss.cConexion;
+import advance.demo.clss.cAlumno;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -15,16 +17,28 @@ public class App extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
-    private ObservableList<cPerson> personData = FXCollections.observableArrayList();
-
+    private ObservableList<cAlumno> personData = FXCollections.observableArrayList();
+	public App() {
+		// Add some sample data
+		personData.add(new cAlumno("A0001","Hans", "Muster",15,72696560,'M',"C0001","S0001"));
+		personData.add(new cAlumno("A0002","Ruth", "Mueller",15,72696560,'M',"C0001","S0001"));
+		personData.add(new cAlumno("A0003","Heinz", "Kurz",15,72696560,'M',"C0001","S0001"));
+		personData.add(new cAlumno("A0004","Cornelia", "Meier",15,72696560,'M',"C0001","S0001"));
+		personData.add(new cAlumno("A0005","Werner", "Meyer",15,72696560,'M',"C0001","S0001"));
+		personData.add(new cAlumno("A0006","Lydia", "Kunz",15,72696560,'M',"C0001","S0001"));
+		personData.add(new cAlumno("A0007","Anna", "Best",15,72696560,'M',"C0001","S0001"));
+		personData.add(new cAlumno("A0008","Stefan", "Meier",15,72696560,'M',"C0001","S0001"));
+		personData.add(new cAlumno("A0009","Martin", "Mueller",15,72696560,'M',"C0001","S0001"));
+        }
+        
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("AddressApp");
-
+        this.primaryStage.setTitle("Sistema de Pagos Cuetillo");
+        
         initRootLayout();
 
-        showPersonOverview();
+        MostrarVentana("Inicio");
     }
     
     /**
@@ -36,7 +50,8 @@ public class App extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(App.class.getResource("RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
-            
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
@@ -44,47 +59,45 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        cConexion conexion = new cConexion();
     }
 
-    /**
-     * Shows the person overview inside the root layout.
-     */
-    public void showPersonOverview() {
-        try {
+    public void MostrarVentana(String ventana) 
+    {
+        try 
+        {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(App.class.getResource("PersonOverview.fxml"));
-            AnchorPane personOverview = (AnchorPane) loader.load();
+            loader.setLocation(App.class.getResource(ventana+".fxml"));
+            AnchorPane Ventana = (AnchorPane) loader.load();
             
             // Set person overview into the center of root layout.
-            rootLayout.setCenter(personOverview);
-        } catch (IOException e) {
+            rootLayout.setCenter(Ventana);
+        } 
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-	/**
-	 * Returns the main stage.
-	 * @return
-	 */
-	public Stage getPrimaryStage() {
-		return primaryStage;
-	}
+    
+	
+    public Stage getPrimaryStage() {
+            return primaryStage;
+    }
 
     public static void main(String[] args) {
         launch(args);
     }
     
     //
-    public ObservableList<cPerson> getPersonData() 
+    public ObservableList<cAlumno> getPersonData() 
     {
         return personData;
     }
         
-    public boolean showPersonEditDialog(cPerson person) 
+    public boolean showAlumnoEditDialog(cAlumno alumno) 
     {
         try {
-            // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(App.class.getResource("PersonEditDialog.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
@@ -98,9 +111,9 @@ public class App extends Application {
             dialogStage.setScene(scene);
 
             // Set the person into the controller.
-            PersonEditDialogController controller = loader.getController();
+            AlumnoEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
-            controller.setPerson(person);
+            controller.setPerson(alumno);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
@@ -110,30 +123,5 @@ public class App extends Application {
             e.printStackTrace();
             return false;
         }
-    }
-         
-    public void showBirthdayStatistics() {
-       try {
-           // Load the fxml file and create a new stage for the popup.
-           FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(App.class.getResource("BirthdayStatistics.fxml"));
-           AnchorPane page = (AnchorPane) loader.load();
-           Stage dialogStage = new Stage();
-           dialogStage.setTitle("Birthday Statistics");
-           dialogStage.initModality(Modality.WINDOW_MODAL);
-           dialogStage.initOwner(primaryStage);
-           Scene scene = new Scene(page);
-           dialogStage.setScene(scene);
-
-           // Set the persons into the controller.
-           BirthdayStatisticsController controller = loader.getController();
-           controller.setPersonData(personData);
-
-           dialogStage.show();
-
-       } catch (IOException e) {
-           e.printStackTrace();
-       }
-   }
-    
+    }   
 }

@@ -7,25 +7,43 @@ import javafx.stage.FileChooser;
 
 public class RootLayoutController {
 
-    // Reference to the main application
-    private App mainApp;
-
-    public void setMainApp(App mainApp) {
+    private App mainApp;    
+    public void setMainApp(App mainApp) 
+    {
         this.mainApp = mainApp;
-    }
-
-    /**
-     * Creates an empty address book.
-     */
+    }    
+    
+    
     @FXML
-    private void handleNew() {
-        //mainApp.getPersonData().clear();
-        //mainApp.setPersonFilePath(null);
+    private void Alumnos() {
+        mainApp.MostrarVentana("Alumnos");
     }
-
-    /**
-     * Opens a FileChooser to let the user select an address book to load.
-     */
+    
+    @FXML
+    private void Carreras() {
+        mainApp.MostrarVentana("Carrera");
+    }
+    
+    @FXML
+    private void Semestres() {
+        mainApp.MostrarVentana("Semestres");
+    }
+    
+    @FXML
+    private void Asignaturas() {
+        mainApp.MostrarVentana("Asignaturas");
+    }
+    
+    @FXML
+    private void Inscripciones() {
+        mainApp.MostrarVentana("Alumnos");
+    }
+    
+     @FXML
+    private void Pagos() {
+        mainApp.MostrarVentana("Pago");
+    }
+        
     @FXML
     private void handleOpen() {
         FileChooser fileChooser = new FileChooser();
@@ -43,23 +61,6 @@ public class RootLayoutController {
         }
     }
 
-    /**
-     * Saves the file to the person file that is currently open. If there is no
-     * open file, the "save as" dialog is shown.
-     */
-    @FXML
-    private void handleSave() {
-//        File personFile = mainApp.getPersonFilePath();
-//        if (personFile != null) {
-//            mainApp.savePersonDataToFile(personFile);
-//        } else {
-//            handleSaveAs();
-//        }
-    }
-
-    /**
-     * Opens a FileChooser to let the user select a file to save to.
-     */
     @FXML
     private void handleSaveAs() {
 		FileChooser fileChooser = new FileChooser();
@@ -85,12 +86,24 @@ public class RootLayoutController {
     private void handleExit() {
         System.exit(0);
     }
-
-   /**
-    * Opens the birthday statistics.
-    */
-   @FXML
-   private void handleShowBirthdayStatistics() {
-     mainApp.showBirthdayStatistics();
-   }
+    
+    @FXML
+    public void Reportes()
+    {
+//         try
+//         {
+//            JasperReport jasperReport = null;
+//            JasperPrint jasperPrint = null;
+//            JasperDesign jasperDesign = null;
+//            Map parameters = new HashMap();
+//            jasperDesign = JRXmlLoader.load("E:\\Katsuki\\jasper\\src\\main\\java\\ListaPersonas.jrxml");
+//            jasperReport = JasperCompileManager.compileReport(jasperDesign);
+//            jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,new JRBeanCollectionDataSource(Datos.generarDatosPersona()));
+//            JasperExportManager.exportReportToPdfFile(jasperPrint,"target\\ListaPersonas.pdf");
+//            JasperViewer.viewReport(jasperPrint);
+//            
+//        } catch (Exception ex){
+//            System.out.println("EXCEPTION: "+ ex);
+//        }  
+    }
 }
