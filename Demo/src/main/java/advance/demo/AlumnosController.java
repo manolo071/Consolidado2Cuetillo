@@ -4,8 +4,6 @@
  */
 package advance.demo;
 
-import advance.demo.clss.cAlumno;
-import advance.demo.clss.cConexion;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;

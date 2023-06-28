@@ -9,24 +9,24 @@ package advance.demo;
  * @author AJ
  */
 public class cAsignaturas {
-    private String nombre;
+    private String Descripcion;
     private String Semestre;
     private int numeroCreditos;
     
-    public cAsignaturas(String nombre, String semestre, int numeroCreditos) {
-        this.nombre = nombre;
+    public cAsignaturas(String descripcion, String semestre, int numeroCreditos) {
+        this.Descripcion = descripcion;
         this.Semestre = semestre;
         this.numeroCreditos = numeroCreditos;
     }
     
     // Métodos getters y setters
     
-    public String getNombre() {
-        return nombre;
+    public String getDescripcion() {
+        return Descripcion;
     }
     
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDescripcion(String nombre) {
+        this.Descripcion = nombre;
     }
     
     public int getNumeroCreditos() {

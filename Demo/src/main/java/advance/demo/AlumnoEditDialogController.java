@@ -1,7 +1,6 @@
 package advance.demo;
 
 import advance.demo.util.DateUtil;
-import advance.demo.clss.cAlumno;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;

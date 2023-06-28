@@ -1,6 +1,4 @@
 package advance.demo;
-import advance.demo.clss.cConexion;
-import advance.demo.clss.cAlumno;
 import java.io.IOException;
 
 import javafx.application.Application;

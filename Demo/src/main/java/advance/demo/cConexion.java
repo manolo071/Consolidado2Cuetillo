@@ -1,4 +1,4 @@
-package advance.demo.clss;
+package advance.demo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
