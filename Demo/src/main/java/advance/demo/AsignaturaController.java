@@ -5,6 +5,7 @@
 package advance.demo;
 
 import advance.demo.clss.cAlumno;
+import advance.demo.clss.cAsignaturas;
 import advance.demo.clss.cConexion;
 import java.net.URL;
 import java.util.List;
@@ -34,26 +35,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
  *
  * @author AJ
  */
-public class AlumnosController implements Initializable {
+public class AsignaturaController implements Initializable {
 
     @FXML
-    private TableView tblAlumnos;
-    @FXML
-    private TextField txtNombre;
-    @FXML
-    private TextField txtApellido;
-    @FXML
-    private Spinner spEdad;
-    @FXML
-    private TextField txtDNI;
-    @FXML
-    private RadioButton rbMasculino;
-    @FXML
-    private RadioButton rbFemenino;
+    private TextField txtDescripcion;
     @FXML
     private Button btnAgregar;
     @FXML
-    private Button btnModificar;
+    private TableView tblAlumnos;
+    @FXML
+    private Spinner<Integer> spCreditos;
     @FXML
     private ComboBox<String> cbCarrera;
     @FXML
@@ -61,9 +52,8 @@ public class AlumnosController implements Initializable {
     @FXML
     private TextField txtId;
     @FXML
-    private Button btnSalir;
-    @FXML
-    private Button btnNuevo;
+    private Button btnModificar;
+
     /**
      * Initializes the controller class.
      */
@@ -81,13 +71,8 @@ public class AlumnosController implements Initializable {
     {       
 
         ToggleGroup toggleGroup = new ToggleGroup();    
-        rbMasculino.setToggleGroup(toggleGroup);
-        rbFemenino.setToggleGroup(toggleGroup);
         SpinnerValueFactory<Integer> edadValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100);
-        spEdad.setValueFactory(edadValueFactory);        
-        rbMasculino.setSelected(true);
-        btnModificar.setDisable(true);
-        
+        spCreditos.setValueFactory(edadValueFactory);        
     }
     
     public void InicializarTable()
@@ -96,29 +81,21 @@ public class AlumnosController implements Initializable {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         idColumn.setVisible(false);
 
-        TableColumn<cAlumno, String> nombreColumn = new TableColumn<>("Nombre");
-        nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-
-        TableColumn<cAlumno, String> apellidoColumn = new TableColumn<>("Apellido");
-        apellidoColumn.setCellValueFactory(new PropertyValueFactory<>("apellido"));
-
-        TableColumn<cAlumno, Integer> edadColumn = new TableColumn<>("Edad");
-        edadColumn.setCellValueFactory(new PropertyValueFactory<>("edad"));
-
-        TableColumn<cAlumno, Integer> dniColumn = new TableColumn<>("DNI");
-        dniColumn.setCellValueFactory(new PropertyValueFactory<>("DNI"));
-
-        TableColumn<cAlumno, Character> generoColumn = new TableColumn<>("Género");
-        generoColumn.setCellValueFactory(new PropertyValueFactory<>("genero"));
-
-        TableColumn<cAlumno, String> carreraColumn = new TableColumn<>("Carrera");
-        carreraColumn.setCellValueFactory(new PropertyValueFactory<>("carrera"));
+        TableColumn<cAlumno, String> descripcionColumn = new TableColumn<>("Descripcion");
+        descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("Descripcion"));
 
         TableColumn<cAlumno, String> semestreColumn = new TableColumn<>("Semestre");
         semestreColumn.setCellValueFactory(new PropertyValueFactory<>("semestre"));
 
+        TableColumn<cAlumno, Integer> creditosColumn = new TableColumn<>("Creditos");
+        creditosColumn.setCellValueFactory(new PropertyValueFactory<>("numeroCreditos"));
+        
+        TableColumn<cAlumno, String> carreraColumn = new TableColumn<>("Carrera");
+        carreraColumn.setCellValueFactory(new PropertyValueFactory<>("carrera"));
+
+
         // Agregar las columnas al TableView
-        tblAlumnos.getColumns().addAll(idColumn, nombreColumn, apellidoColumn, edadColumn, dniColumn, generoColumn, carreraColumn, semestreColumn);
+        tblAlumnos.getColumns().addAll(idColumn, descripcionColumn, semestreColumn, creditosColumn, carreraColumn);
     }
     
     public void CargarDatos()
@@ -132,8 +109,8 @@ public class AlumnosController implements Initializable {
         cbCarrera.setItems(opcionesCarreras);
         cbSemestre.setItems(opcioneSemestres);
 
-        List<cAlumno> alumnos = con.obtenerDatosAlumnos();
-        ObservableList<cAlumno> data = FXCollections.observableArrayList(alumnos);
+        List<cAsignaturas> asignatura = con.obtenerDatosAsignatura();
+        ObservableList<cAsignaturas> data = FXCollections.observableArrayList(asignatura);
         tblAlumnos.setItems(data);
     }
     
@@ -145,28 +122,15 @@ public class AlumnosController implements Initializable {
         {
             if (newSelection != null) 
             {
-                cAlumno alumnoSeleccionado =  (cAlumno) newSelection;
+                cAsignaturas alumnoSeleccionado =  (cAsignaturas) newSelection;
                 String id = alumnoSeleccionado.getId();
-                String nombre = alumnoSeleccionado.getNombre();
-                String apellido = alumnoSeleccionado.getApellido();
-                int edad = alumnoSeleccionado.getEdad();
-                int dni = alumnoSeleccionado.getDNI();
-                char genero = alumnoSeleccionado.getGenero();
+                String descripcion = alumnoSeleccionado.getDescripcion();
+                int creditos = alumnoSeleccionado.getNumeroCreditos();
                 String carrera = alumnoSeleccionado.getCarrera();                
                 String semestre = alumnoSeleccionado.getSemestre();
                 txtId.setText(id);
-                txtNombre.setText(nombre);
-                txtApellido.setText(apellido);
-                spEdad.getValueFactory().setValue(edad);                
-                txtDNI.setText(dni+"");
-                if(genero == 'M')
-                {
-                    rbMasculino.setSelected(true);
-                }
-                else
-                {
-                    rbFemenino.setSelected(true);
-                }
+                txtDescripcion.setText(descripcion);
+                spCreditos.getValueFactory().setValue(creditos);                
                 cbCarrera.setValue(carrera);
                 cbSemestre.setValue(semestre);
             }
@@ -178,36 +142,33 @@ public class AlumnosController implements Initializable {
     public void RecuperarFields(int op) 
     {
         String Id = txtId.getText();
-        String nombre = txtNombre.getText();
-        String apellido = txtApellido.getText();
-        int edad = (int) spEdad.getValue();
-        int dni = Integer.parseInt(txtDNI.getText());
-        char genero = rbMasculino.isSelected() ? 'M' : 'F';
+        String descripcion = txtDescripcion.getText();
+        int creditos = (int) spCreditos.getValue();
         String carrera = (String) cbCarrera.getSelectionModel().getSelectedItem();
         String semestre = (String) cbSemestre.getSelectionModel().getSelectedItem();
         if(op==1)
         {
-            AgregarDatos(nombre, apellido, edad, dni, genero, carrera, semestre);
+            AgregarDatos(descripcion, semestre, creditos, carrera);
         }
         else
         {
             if(op==2)
             {
-                ModificarDatos(Id, nombre, apellido, edad, dni, genero, carrera, semestre);
+                ModificarDatos(Id, descripcion, semestre, creditos, carrera);
             }
         }
     }
     
-    public void AgregarDatos(String nombre, String apellido, int edad, int dni, char genero,String carrera, String semestre) 
+    public void AgregarDatos(String Descripcion, String Semestre, int numeroCreditos, String Carrera) 
     {
-        cAlumno alumno = new cAlumno(null, nombre, apellido, edad, dni, genero, null, null);
+        cAsignaturas asignatura = new cAsignaturas(null, Descripcion, null, numeroCreditos, null);
         cConexion con = new cConexion();
-        boolean exito = con.agregarAlumno(alumno, semestre, carrera);
+        boolean exito = con.agregarAsignatura(asignatura, Semestre, Carrera);
 
         if (exito) 
         {            
             Alert alert = new Alert(AlertType.INFORMATION);
-            String[] Mensaje = {"Éxito","Alumno agregado","El alumno se ha agregado correctamente."};
+            String[] Mensaje = {"Éxito","Asignatura agregada","La Asignatura se ha agregado correctamente."};
             Mensaje(alert, Mensaje);
             Nuevo();
             btnAgregar.setDisable(true);
@@ -218,21 +179,21 @@ public class AlumnosController implements Initializable {
         {
             // Mostrar una alerta de error
             Alert alert = new Alert(AlertType.ERROR);
-            String[] Mensaje = {"Error","Error al agregar alumno","Ha ocurrido un error al intentar agregar al alumno."};
+            String[] Mensaje = {"Error","Error al agregar Asignatura","Ha ocurrido un error al intentar agregar la Asignatura."};
             Mensaje(alert, Mensaje);
         }
     }
     
-    public void ModificarDatos(String Id,String nombre, String apellido, int edad, int dni, char genero, String carrera, String semestre) 
+    public void ModificarDatos(String Id, String Descripcion, String Semestre, int numeroCreditos, String Carrera) 
     {
-        cAlumno alumno = new cAlumno(Id, nombre, apellido, edad, dni, genero, null, null);
+        cAsignaturas asignatura = new cAsignaturas(Id, Descripcion, null, numeroCreditos, null);
         cConexion con = new cConexion();
-        boolean exito = con.modificarAlumno(alumno, semestre, carrera);
+        boolean exito = con.modificarAsignatura(asignatura, Semestre, Carrera);
 
         if (exito) 
         {            
             Alert alert = new Alert(AlertType.INFORMATION);
-            String[] Mensaje = {"Éxito","Alumno modificado","El alumno se ha modificado correctamente."};
+            String[] Mensaje = {"Éxito","Asignatura modificado","La Asignatura se ha modificado correctamente."};
             Mensaje(alert, Mensaje);
             Nuevo();
             CargarDatos();
@@ -241,7 +202,7 @@ public class AlumnosController implements Initializable {
         {
             // Mostrar una alerta de error
             Alert alert = new Alert(AlertType.ERROR);
-            String[] Mensaje = {"Error","Error al modificar alumno","Ha ocurrido un error al intentar modificar al alumno."};
+            String[] Mensaje = {"Error","Error al modificar Asignatura","Ha ocurrido un error al intentar modificar la Asignatura."};
             Mensaje(alert, Mensaje);
         }
     }
@@ -252,26 +213,19 @@ public class AlumnosController implements Initializable {
         DesActivar(false);
         btnAgregar.setDisable(false);
         txtId.setText("");
-        txtNombre.setText("");
-        txtApellido.setText("");       
-        txtDNI.setText("");
+        txtDescripcion.setText("");
         cbCarrera.getSelectionModel().select(0);
         cbSemestre.getSelectionModel().select(0);
-        rbMasculino.setSelected(true);
-        spEdad.getValueFactory().setValue(16);
-        txtNombre.requestFocus();
+        spCreditos.getValueFactory().setValue(16);
+        txtDescripcion.requestFocus();
         btnModificar.setDisable(true);
     }
     public void DesActivar(boolean a)
     {
-        txtNombre.setDisable(a);
-        txtApellido.setDisable(a);       
-        txtDNI.setDisable(a);
+        txtDescripcion.setDisable(a);
         cbCarrera.setDisable(a);
         cbSemestre.setDisable(a);
-        rbMasculino.setDisable(a);
-        rbFemenino.setDisable(a);
-        spEdad.setDisable(a);
+        spCreditos.setDisable(a);
     }
     @FXML
     public void exit()

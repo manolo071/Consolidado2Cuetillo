@@ -34,10 +34,11 @@ CREATE TABLE tAlumnos (
 CREATE TABLE tAsignaturas (
   id VARCHAR(8) PRIMARY KEY NOT NULL,
   Descripcion VARCHAR(10) NOT NULL,
-  Semestre VARCHAR(10) NOT NULL,
+  Semestre VARCHAR(8) NOT NULL,
   numeroCreditos INT NOT NULL,
-  idCarrera VARCHAR(8) NOT NULL,
-  FOREIGN KEY (idCarrera) REFERENCES tCarrera (id)
+  Carrera VARCHAR(8) NOT NULL,
+  FOREIGN KEY (Semestre) REFERENCES tSemestres (id),
+  FOREIGN KEY (Carrera) REFERENCES tCarrera (id)
 );
 
 
@@ -101,7 +102,7 @@ INSERT INTO tAlumnos (id, Nombre, Apellido, Edad, DNI, Genero, Carrera, Semestre
 ('A025', 'Andrea', 'Torres', 23, 58273946, 'F', 'C005', 'S002');
 
 -- Ejemplos de inserción de datos en la tabla tAsignaturas
-INSERT INTO tAsignaturas (id, Descripcion, Semestre, numeroCreditos, idCarrera) VALUES
+INSERT INTO tAsignaturas (id, Descripcion, Semestre, numeroCreditos, Carrera) VALUES
 ('AS001', 'Matemáticas', 'S002', 4, 'C001'),
 ('AS002', 'Física', 'S002', 3, 'C001'),
 ('AS003', 'Historia', 'S002', 2, 'C002'),
