@@ -45,9 +45,8 @@ CREATE TABLE tAsignaturas (
 CREATE TABLE tPagos (
   id VARCHAR(8) PRIMARY KEY NOT NULL,
   idAlumno VARCHAR(8) NOT NULL,
-  TipoPago VARCHAR(10) NOT NULL,
   Monto VARCHAR(8) NOT NULL,
-  MetodoPago VARCHAR(8) NOT NULL,
+  MetodoPago VARCHAR(15) NOT NULL,
   FOREIGN KEY (idAlumno) REFERENCES tAlumnos (id)
 );
 
@@ -110,9 +109,9 @@ INSERT INTO tAsignaturas (id, Descripcion, Semestre, numeroCreditos, Carrera) VA
 ('AS005', 'Economía', 'S002', 4, 'C003');
 
 -- Ejemplos de inserción de datos en la tabla tPagos
-INSERT INTO tPagos (id, idAlumno, TipoPago, Monto, MetodoPago) VALUES
-('P001', 'A001', 'Matrícula', '500.00', 'Tarjeta'),
-('P002', 'A002', 'Mensualidad', '200.00', 'Efectivo'),
-('P003', 'A003', 'Matrícula', '500.00', 'Transferencia'),
-('P004', 'A004', 'Mensualidad', '200.00', 'Tarjeta'),
-('P005', 'A005', 'Matrícula', '500.00', 'Efectivo');
+INSERT INTO tPagos (id, idAlumno, Monto, MetodoPago) VALUES
+('P001', 'A001', '500.00', 'Tarjeta'),
+('P002', 'A002', '200.00', 'Efectivo'),
+('P003', 'A003', '500.00', 'Transferencia'),
+('P004', 'A004', '200.00', 'Tarjeta'),
+('P005', 'A005', '500.00', 'Efectivo');

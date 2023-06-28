@@ -11,14 +11,12 @@ package advance.demo.clss;
 public class cPagos {
     private String id;
     private String Alumno;
-    private String TipoPago;
-    private float Monto;
+    private double Monto;
     private String MetodoPago;
 
-    public cPagos(String id, String Alumno, String TipoPago, float Monto, String MetodoPago) {
+    public cPagos(String id, String Alumno, double Monto, String MetodoPago) {
         this.id = id;
         this.Alumno = Alumno;
-        this.TipoPago = TipoPago;
         this.Monto = Monto;
         this.MetodoPago = MetodoPago;
     }
@@ -39,15 +37,7 @@ public class cPagos {
         this.Alumno = Alumno;
     }
 
-    public String getTipoPago() {
-        return TipoPago;
-    }
-
-    public void setTipoPago(String TipoPago) {
-        this.TipoPago = TipoPago;
-    }
-
-    public float getMonto() {
+    public double getMonto() {
         return Monto;
     }
 

@@ -1,37 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advance.demo.PagoController">
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advance.demo.PagosController">
    <children>
-      <Label layoutX="561.0" layoutY="191.0" text="Pagar Semestre">
+      <Label layoutX="587.0" layoutY="20.0" prefHeight="34.0" prefWidth="125.0" text="INGRESAR PAGOS">
          <font>
-            <Font size="20.0" />
+            <Font name="Arial Bold" size="50.0" />
          </font>
       </Label>
-      <Label layoutX="473.0" layoutY="243.0" text="Alumno" />
-      <Label layoutX="473.0" layoutY="320.0" prefHeight="17.0" prefWidth="62.0" text="Monto" />
-      <Label layoutX="470.0" layoutY="368.0" text="Metodo" />
-      <TextField fx:id="txtEdad" layoutX="583.0" layoutY="236.0" />
-      <TextField fx:id="txtDNI" alignment="CENTER" layoutX="583.0" layoutY="320.0" text="s/.665" />
-      <Button fx:id="btnAgregar" layoutX="571.0" layoutY="421.0" mnemonicParsing="false" text="Pagar" />
-      <Button layoutX="658.0" layoutY="421.0" mnemonicParsing="false" text="Cancelar" />
-      <Label layoutX="470.0" layoutY="283.0" prefHeight="21.0" prefWidth="95.0" text="Tipo de Pago" />
-      <CheckBox layoutX="594.0" layoutY="368.0" mnemonicParsing="false" text="Visa" />
-      <CheckBox layoutX="671.0" layoutY="368.0" mnemonicParsing="false" text="Yape" />
-      <SplitMenuButton layoutX="584.0" layoutY="278.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="25.0" prefWidth="149.0" text="Mensual">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Mensual" />
-          <MenuItem mnemonicParsing="false" text="Año" />
-        </items>
-      </SplitMenuButton>
-      <CheckBox layoutX="738.0" layoutY="368.0" mnemonicParsing="false" text="Transferencia" />
+      <Label layoutX="468.0" layoutY="149.0" text="NOMBRE DEL ALUMNO" textFill="WHITE">
+         <font>
+            <Font name="Blackadder ITC" size="71.0" />
+         </font></Label>
+      <Button fx:id="btnAgregar" layoutX="72.0" layoutY="151.0" mnemonicParsing="false" onAction="#AgregarDatos" prefHeight="33.0" prefWidth="110.0" text="Agregar" />
+      <Button fx:id="btnSalir" layoutX="73.0" layoutY="277.0" mnemonicParsing="false" onAction="#exit" prefHeight="33.0" prefWidth="110.0" text="Salir" />
+      <Label layoutX="502.0" layoutY="207.0" prefHeight="22.0" prefWidth="124.0" text="MONTO DE PAGO" />
+      <ScrollPane layoutY="410.0" prefHeight="310.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="410.0">
+         <content>
+            <TableView fx:id="tblAlumnos" onMouseClicked="#RecuperarDatos" prefHeight="309.0" prefWidth="1278.0" styleClass="background" stylesheets="@DarkTheme.css">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </content>
+      </ScrollPane>
+      <Spinner fx:id="spMonto" editable="true" layoutX="641.0" layoutY="200.0" />
+      <Button fx:id="btnModificar" layoutX="73.0" layoutY="217.0" mnemonicParsing="false" onAction="#ModifDatos" text="Modificar" />
+      <Button fx:id="btnNuevo" layoutX="73.0" layoutY="91.0" mnemonicParsing="false" onAction="#Nuevo" prefHeight="33.0" prefWidth="110.0" text="Nuevo" />
+      <Label layoutX="612.0" layoutY="88.0" text="ID" />
+      <TextField fx:id="txtId" editable="false" layoutX="643.0" layoutY="79.0" />
+      <ComboBox fx:id="cbMPago" layoutX="642.0" layoutY="259.0" prefHeight="34.0" prefWidth="206.0" />
+      <Label layoutX="497.0" layoutY="263.0" prefHeight="22.0" prefWidth="131.0" text="METODO DE PAGO" />
+      <ComboBox fx:id="cbAlumno" layoutX="642.0" layoutY="143.0" prefHeight="34.0" prefWidth="206.0" />
    </children>
 </AnchorPane>

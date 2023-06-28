@@ -11,8 +11,7 @@ public class RootLayoutController {
     public void setMainApp(App mainApp) 
     {
         this.mainApp = mainApp;
-    }    
-    
+    }       
     
     @FXML
     private void Alumnos() {
@@ -21,7 +20,7 @@ public class RootLayoutController {
     
     @FXML
     private void Carreras() {
-        mainApp.MostrarVentana("Carrera");
+        mainApp.MostrarVentana("Carreras");
     }
     
     @FXML

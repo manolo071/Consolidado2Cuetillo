@@ -102,6 +102,31 @@ public class cConexion {
         return asignatura;
     }
 
+    public List<cPagos> obtenerDatosPagos() {
+        List<cPagos> asignatura = new ArrayList<>();
+        String query = "SELECT * FROM tPagos";
+        try (Connection conexion = conectar();
+             PreparedStatement statement = conexion.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            Map<String, String> alumnoId = obtenerAlumnos();
+
+            while (resultSet.next()) {
+                String id = resultSet.getString("id");
+                String idalumno = resultSet.getString("idAlumno");
+                float monto = resultSet.getFloat("Monto");
+                String metodoPago = resultSet.getString("MetodoPago");
+
+                String alumno = alumnoId.get(idalumno);
+                cPagos asig = new cPagos(id, alumno, monto, metodoPago);
+                asignatura.add(asig);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(cConexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return asignatura;
+    }
+    
     public Map<String, String> obtenerCarreras() 
     {
         Map<String, String> carreras = new LinkedHashMap<>();
@@ -113,6 +138,25 @@ public class cConexion {
             while (resultSet.next()) {
                 String carreraId = resultSet.getString("ID");
                 String descripcion = resultSet.getString("Descripcion");
+                carreras.put(carreraId, descripcion);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(cConexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return carreras;
+    }
+       
+    public Map<String, String> obtenerAlumnos() 
+    {
+        Map<String, String> carreras = new LinkedHashMap<>();
+        String query = "SELECT ID, Nombre FROM tAlumnos";
+        try (Connection conexion = conectar();
+             PreparedStatement statement = conexion.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String carreraId = resultSet.getString("ID");
+                String descripcion = resultSet.getString("Nombre");
                 carreras.put(carreraId, descripcion);
             }
         } catch (SQLException ex) {
@@ -188,7 +232,28 @@ public class cConexion {
             return false;
         }
     }
+    
+    public boolean modificarPago(cPagos pago, String alumno) 
+    {
+        try (Connection connection = conectar()) {
+            String sql = "UPDATE tPagos SET idAlumno = ?, Monto = ?, MetodoPago = ? WHERE id = ?";
 
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, getIdAlumno(alumno));
+            statement.setDouble(2, pago.getMonto());
+            statement.setString(3, pago.getMetodoPago());
+            statement.setString(4, pago.getId());
+
+            int filasAfectadas = statement.executeUpdate();
+
+            statement.close();
+
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     
     public boolean agregarAlumno(cAlumno alumno, String Semestre, String Carrera) {
         try (Connection connection = conectar()) {
@@ -243,6 +308,31 @@ public class cConexion {
         }
     }
     
+    public boolean agregarPago(cPagos pago, String alumno) {
+        try (Connection connection = conectar()) {
+            int siguienteNumero = obtenerSiguienteNumeroPago();
+            String idAsignatura = String.format("PS%04d", siguienteNumero);
+
+            String sql = "INSERT INTO tPagos tPagos (id, idAlumno, Monto, MetodoPago) VALUES (?, ?, ?, ?)";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, idAsignatura);
+            statement.setString(2, getIdAlumno(alumno));
+            statement.setDouble(3, pago.getMonto());
+            statement.setString(4, pago.getMetodoPago());
+            
+
+            int filasAfectadas = statement.executeUpdate();
+
+            statement.close();
+
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     private int obtenerSiguienteNumeroAlumno() {
         int siguienteNumero = 0;
         String query = "SELECT MAX(CAST(SUBSTRING(id, 2) AS UNSIGNED)) AS max_numero FROM tAlumnos";
@@ -275,6 +365,22 @@ public class cConexion {
         return siguienteNumero;
     }    
     
+    private int obtenerSiguienteNumeroPago() {
+        int siguienteNumero = 0;
+        String query = "SELECT MAX(CAST(SUBSTRING(id, 2) AS UNSIGNED)) AS max_numero FROM tPagos";
+        try (Connection conexion = conectar();
+             PreparedStatement statement = conexion.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                siguienteNumero = resultSet.getInt("max_numero") + 1;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(cConexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return siguienteNumero;
+    }   
+    
     private String getIdCarrera(String descripcion) 
     {
         String query = "SELECT ID FROM tCarrera WHERE Descripcion = ?";
@@ -301,6 +407,29 @@ public class cConexion {
     private String getIdSemestre(String descripcion) 
     {
         String query = "SELECT ID FROM tSemestres WHERE Descripcion = ?";
+        String semestreId = "";
+        try (Connection conexion = conectar();PreparedStatement statement = conexion.prepareStatement(query)) 
+        {
+
+            statement.setString(1, descripcion);
+            try (ResultSet resultSet = statement.executeQuery()) 
+            {
+                while (resultSet.next()) 
+                {
+                    semestreId = resultSet.getString("ID");
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(cConexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return semestreId;
+    }    
+    
+    private String getIdAlumno(String descripcion) 
+    {
+        String query = "SELECT ID FROM tAlumnos WHERE Descripcion = ?";
         String semestreId = "";
         try (Connection conexion = conectar();PreparedStatement statement = conexion.prepareStatement(query)) 
         {
