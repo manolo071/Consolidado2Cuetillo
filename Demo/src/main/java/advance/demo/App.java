@@ -1,42 +1,46 @@
 package advance.demo;
+import advance.demo.clss.cAlumno;
 import advance.demo.clss.cConexion;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class App extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
-   
-    private static Scene scene;
+
+        
     @Override
     public void start(Stage primaryStage) throws IOException {
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Sistema de Pagos Cuetillo");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
         AnchorPane root = loader.load();
-
+        LoginController loginController = loader.getController();
+        loginController.setMainApp(this);
         // Crear una escena y asignarla a la ventana principal
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Sistema de Pagos Cuetillo");
         
-        //initRootLayout();
+//        initRootLayout();
+//        MostrarVentana("Inicio");
     }
     
     /**
      * Initializes the root layout.
      */
-    public void initRootLayout() {     
+    public void initRootLayout() {
         try {
-            MostrarVentana("Inicio");
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(App.class.getResource("RootLayout.fxml"));
@@ -47,6 +51,7 @@ public class App extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
+            primaryStage.centerOnScreen();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,8 +66,6 @@ public class App extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(App.class.getResource(ventana+".fxml"));
             AnchorPane Ventana = (AnchorPane) loader.load();
-            
-            // Set person overview into the center of root layout.
             rootLayout.setCenter(Ventana);
         } 
         catch (IOException e) {
@@ -70,10 +73,7 @@ public class App extends Application {
         }
     }
     
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
+    
 	
     public Stage getPrimaryStage() {
             return primaryStage;
@@ -83,6 +83,5 @@ public class App extends Application {
         launch(args);
     }
     
-     
    
 }

@@ -16,8 +16,13 @@ import javafx.scene.control.TextField;
  *
  * @author AJ
  */
-public class LoginController implements Initializable {
 
+public class LoginController {
+    private App mainApp;
+
+    public void setMainApp(App mainApp) {
+        this.mainApp = mainApp;
+    }
     @FXML
     private TextField txtUser;
     @FXML
@@ -30,16 +35,15 @@ public class LoginController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }
 
     @FXML
     private void Ingresar()
     {
-        App app = new App();
-        app.initRootLayout();
+        mainApp.initRootLayout();
+        mainApp.MostrarVentana("Inicio");
     }
     
 }
