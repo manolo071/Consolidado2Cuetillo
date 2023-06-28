@@ -1,4 +1,6 @@
 package advance.demo;
+import advance.demo.clss.cAlumno;
+import advance.demo.clss.cConexion;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -91,35 +93,6 @@ public class App extends Application {
     public ObservableList<cAlumno> getPersonData() 
     {
         return personData;
-    }
-        
-    public boolean showAlumnoEditDialog(cAlumno alumno) 
-    {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(App.class.getResource("PersonEditDialog.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
-
-            // Create the dialog Stage.
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Person");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            // Set the person into the controller.
-            AlumnoEditDialogController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-            controller.setPerson(alumno);
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-
-            return controller.isOkClicked();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }   
+    }       
+   
 }
