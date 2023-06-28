@@ -20,7 +20,7 @@ public class RootLayoutController {
     
     @FXML
     private void Carreras() {
-        mainApp.MostrarVentana("Carreras");
+        mainApp.MostrarVentana("Carrera");
     }
     
     @FXML

@@ -127,6 +127,26 @@ public class cConexion {
         return asignatura;
     }
     
+    public List<cCarrera> obtenerDatosCarreras() {
+        List<cCarrera> carreras = new ArrayList<>();
+        String query = "SELECT * FROM tCarrera";
+        try (Connection conexion = conectar();
+             PreparedStatement statement = conexion.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                String id = resultSet.getString("id");
+                String descripcion = resultSet.getString("Descripcion");
+                int semestre = resultSet.getInt("Semestres");
+                double metodoPago = resultSet.getDouble("CostoCredito");
+                cCarrera carrera = new cCarrera(id, descripcion, semestre, metodoPago);
+                carreras.add(carrera);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(cConexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return carreras;
+    }
+    
     public Map<String, String> obtenerCarreras() 
     {
         Map<String, String> carreras = new LinkedHashMap<>();
@@ -255,6 +275,28 @@ public class cConexion {
         }
     }
     
+    public boolean modificarCarrera(cCarrera carrera) 
+    {
+        try (Connection connection = conectar()) {
+            String sql = "UPDATE tCarrera SET Descripcion = ?, Semestres = ?, CostoCredito = ? WHERE id = ?";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, carrera.getDescripcion());
+            statement.setInt(2, carrera.getSemestres());
+            statement.setDouble(3, carrera.getCostoCredito());
+            statement.setString(4, carrera.getId());
+
+            int filasAfectadas = statement.executeUpdate();
+
+            statement.close();
+
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     public boolean agregarAlumno(cAlumno alumno, String Semestre, String Carrera) {
         try (Connection connection = conectar()) {
             int siguienteNumero = obtenerSiguienteNumeroAlumno();
@@ -313,13 +355,38 @@ public class cConexion {
             int siguienteNumero = obtenerSiguienteNumeroPago();
             String idAsignatura = String.format("PS%04d", siguienteNumero);
 
-            String sql = "INSERT INTO tPagos tPagos (id, idAlumno, Monto, MetodoPago) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO tPagos (id, idAlumno, Monto, MetodoPago) VALUES (?, ?, ?, ?)";
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, idAsignatura);
             statement.setString(2, getIdAlumno(alumno));
             statement.setDouble(3, pago.getMonto());
             statement.setString(4, pago.getMetodoPago());
+            
+
+            int filasAfectadas = statement.executeUpdate();
+
+            statement.close();
+
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean agregarCarrera(cCarrera carrera) {
+        try (Connection connection = conectar()) {
+            int siguienteNumero = obtenerSiguienteNumeroCarrera();
+            String idCarrera = String.format("C%04d", siguienteNumero);
+
+            String sql = "INSERT INTO tCarrera (id, Descripcion, Semestres, CostoCredito) VALUES (?, ?, ?, ?)";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, idCarrera);
+            statement.setString(2, carrera.getDescripcion());
+            statement.setInt(3, carrera.getSemestres());
+            statement.setDouble(4, carrera.getCostoCredito());
             
 
             int filasAfectadas = statement.executeUpdate();
@@ -381,6 +448,22 @@ public class cConexion {
         return siguienteNumero;
     }   
     
+    private int obtenerSiguienteNumeroCarrera() {
+        int siguienteNumero = 0;
+        String query = "SELECT MAX(CAST(SUBSTRING(id, 2) AS UNSIGNED)) AS max_numero FROM tCarrera";
+        try (Connection conexion = conectar();
+             PreparedStatement statement = conexion.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                siguienteNumero = resultSet.getInt("max_numero") + 1;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(cConexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return siguienteNumero;
+    }   
+    
     private String getIdCarrera(String descripcion) 
     {
         String query = "SELECT ID FROM tCarrera WHERE Descripcion = ?";
@@ -429,7 +512,7 @@ public class cConexion {
     
     private String getIdAlumno(String descripcion) 
     {
-        String query = "SELECT ID FROM tAlumnos WHERE Descripcion = ?";
+        String query = "SELECT ID FROM tAlumnos WHERE Nombre = ?";
         String semestreId = "";
         try (Connection conexion = conectar();PreparedStatement statement = conexion.prepareStatement(query)) 
         {

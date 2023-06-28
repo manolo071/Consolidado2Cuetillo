@@ -12,9 +12,9 @@ public class cCarrera {
     private String id;
     private String Descripcion;
     private int Semestres;
-    private float CostoCredito;
+    private double CostoCredito;
 
-    public cCarrera(String id, String Descripcion, int Semestres, float CostoCredito) {
+    public cCarrera(String id, String Descripcion, int Semestres, double CostoCredito) {
         this.id = id;
         this.Descripcion = Descripcion;
         this.Semestres = Semestres;
@@ -45,7 +45,7 @@ public class cCarrera {
         this.Semestres = Semestres;
     }
 
-    public float getCostoCredito() {
+    public double getCostoCredito() {
         return CostoCredito;
     }
 

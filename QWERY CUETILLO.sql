@@ -6,7 +6,7 @@ CREATE TABLE tCarrera (
   id VARCHAR(8) PRIMARY KEY NOT NULL,
   Descripcion VARCHAR(50) NOT NULL,
   Semestres INT NOT NULL,
-  CostoCredito DECIMAL(4,2) NOT NULL
+  CostoCredito DECIMAL(8,2) NOT NULL
 );
 
 CREATE TABLE tSemestres (
