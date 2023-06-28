@@ -11,6 +11,7 @@ import java.time.LocalDate;
  * @author AJ
  */
 public class cSemestre {
+    private String id;
     private String Descripcion;
     private int numero;
     private LocalDate FechaInicio;
@@ -18,7 +19,8 @@ public class cSemestre {
     private int CreditosMin;
     private int CreditosActuales;
 
-    public cSemestre(String descripcion, int numero, LocalDate fechaInicio, LocalDate fechaFin, int creditosMin, int creditosActuales) {
+    public cSemestre(String id, String descripcion, int numero, LocalDate fechaInicio, LocalDate fechaFin, int creditosMin, int creditosActuales) {
+        this.id = id;
         this.Descripcion = descripcion;
         this.numero = numero;
         this.FechaInicio = fechaInicio;

@@ -9,32 +9,34 @@ package advance.demo.clss;
  * @author AJ
  */
 public class cAsignaturas {
+    private String id;
     private String Descripcion;
     private String Semestre;
     private int numeroCreditos;
-    
-    public cAsignaturas(String descripcion, String semestre, int numeroCreditos) {
-        this.Descripcion = descripcion;
-        this.Semestre = semestre;
+    private String Carrera;
+
+    public cAsignaturas(String id, String Descripcion, String Semestre, int numeroCreditos, String Carrera) {
+        this.id = id;
+        this.Descripcion = Descripcion;
+        this.Semestre = Semestre;
         this.numeroCreditos = numeroCreditos;
+        this.Carrera = Carrera;
     }
-    
-    // Métodos getters y setters
-    
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getDescripcion() {
         return Descripcion;
     }
-    
-    public void setDescripcion(String nombre) {
-        this.Descripcion = nombre;
-    }
-    
-    public int getNumeroCreditos() {
-        return numeroCreditos;
-    }
-    
-    public void setNumeroCreditos(int numeroCreditos) {
-        this.numeroCreditos = numeroCreditos;
+
+    public void setDescripcion(String Descripcion) {
+        this.Descripcion = Descripcion;
     }
 
     public String getSemestre() {
@@ -44,5 +46,22 @@ public class cAsignaturas {
     public void setSemestre(String Semestre) {
         this.Semestre = Semestre;
     }
+
+    public int getNumeroCreditos() {
+        return numeroCreditos;
+    }
+
+    public void setNumeroCreditos(int numeroCreditos) {
+        this.numeroCreditos = numeroCreditos;
+    }
+
+    public String getCarrera() {
+        return Carrera;
+    }
+
+    public void setCarrera(String Carrera) {
+        this.Carrera = Carrera;
+    }
+    
 }
 

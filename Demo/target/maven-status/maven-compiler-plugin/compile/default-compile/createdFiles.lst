@@ -8,7 +8,6 @@ module-info.class
 advance\demo\SemestresController.class
 advance\demo\clss\cAlumno.class
 advance\demo\clss\cSemestre.class
-advance\demo\clss\cCuotas.class
 advance\demo\clss\cAsignaturas.class
 advance\demo\DateUtil.class
 advance\demo\util\DateUtil.class

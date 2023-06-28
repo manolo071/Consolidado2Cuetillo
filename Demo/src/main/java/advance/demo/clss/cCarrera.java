@@ -9,14 +9,24 @@ package advance.demo.clss;
  * @author AJ
  */
 public class cCarrera {
+    private String id;
     private String Descripcion;
     private int Semestres;
     private float CostoCredito;
 
-    public cCarrera(String descripcion, int semestres, float costoCredito) {
-        this.Descripcion = descripcion;
-        this.Semestres = semestres;
-        this.CostoCredito = costoCredito;
+    public cCarrera(String id, String Descripcion, int Semestres, float CostoCredito) {
+        this.id = id;
+        this.Descripcion = Descripcion;
+        this.Semestres = Semestres;
+        this.CostoCredito = CostoCredito;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
@@ -43,6 +53,4 @@ public class cCarrera {
         this.CostoCredito = CostoCredito;
     }
 
-    
-    
 }

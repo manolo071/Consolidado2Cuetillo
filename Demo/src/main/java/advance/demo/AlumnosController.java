@@ -53,11 +53,17 @@ public class AlumnosController implements Initializable {
     @FXML
     private Button btnAgregar;
     @FXML
+    private Button btnModificar;
+    @FXML
     private ComboBox<String> cbCarrera;
     @FXML
     private ComboBox<String> cbSemestre;
     @FXML
     private TextField txtId;
+    @FXML
+    private Button btnSalir;
+    @FXML
+    private Button btnNuevo;
     /**
      * Initializes the controller class.
      */
@@ -68,6 +74,7 @@ public class AlumnosController implements Initializable {
         CargarDatos();
         Nuevo();   
         btnAgregar.setDisable(true);
+        DesActivar(true);
     }   
     
     public void Start()
@@ -79,6 +86,8 @@ public class AlumnosController implements Initializable {
         SpinnerValueFactory<Integer> edadValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100);
         spEdad.setValueFactory(edadValueFactory);        
         rbMasculino.setSelected(true);
+        btnModificar.setDisable(true);
+        
     }
     
     public void InicializarTable()
@@ -131,6 +140,7 @@ public class AlumnosController implements Initializable {
     @FXML
     public void RecuperarDatos() 
     {
+        DesActivar(false);
         tblAlumnos.getSelectionModel().selectedItemProperty().addListener((ObservableValue obs, Object oldSelection, Object newSelection) -> 
         {
             if (newSelection != null) 
@@ -162,6 +172,7 @@ public class AlumnosController implements Initializable {
             }
         });
         btnAgregar.setDisable(true);
+        btnModificar.setDisable(false);
     }
     
     public void RecuperarFields(int op) 
@@ -201,6 +212,7 @@ public class AlumnosController implements Initializable {
             Nuevo();
             btnAgregar.setDisable(true);
             CargarDatos();
+            DesActivar(true);
         } 
         else 
         {
@@ -237,9 +249,9 @@ public class AlumnosController implements Initializable {
      @FXML
     public void Nuevo() 
     {
+        DesActivar(false);
         btnAgregar.setDisable(false);
         txtId.setText("");
-        txtId.setDisable(true);
         txtNombre.setText("");
         txtApellido.setText("");       
         txtDNI.setText("");
@@ -248,8 +260,19 @@ public class AlumnosController implements Initializable {
         rbMasculino.setSelected(true);
         spEdad.getValueFactory().setValue(16);
         txtNombre.requestFocus();
+        btnModificar.setDisable(true);
     }
-    
+    public void DesActivar(boolean a)
+    {
+        txtNombre.setDisable(a);
+        txtApellido.setDisable(a);       
+        txtDNI.setDisable(a);
+        cbCarrera.setDisable(a);
+        cbSemestre.setDisable(a);
+        rbMasculino.setDisable(a);
+        rbFemenino.setDisable(a);
+        spEdad.setDisable(a);
+    }
     @FXML
     public void exit()
     {

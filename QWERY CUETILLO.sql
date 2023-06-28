@@ -50,13 +50,6 @@ CREATE TABLE tPagos (
   FOREIGN KEY (idAlumno) REFERENCES tAlumnos (id)
 );
 
-CREATE TABLE tInscripciones (
-  idSemestre VARCHAR(8) NOT NULL,
-  idAlumno VARCHAR(8) NOT NULL,
-  PRIMARY KEY (idSemestre, idAlumno),
-  FOREIGN KEY (idSemestre) REFERENCES tSemestres (id),
-  FOREIGN KEY (idAlumno) REFERENCES tAlumnos (id)
-);
 
 -- Ejemplos de inserción de datos en la tabla tCarrera
 INSERT INTO tCarrera (id, Descripcion, Semestres, CostoCredito) VALUES
